@@ -3,7 +3,14 @@
   <head>
     <meta charset="utf-8" />
     <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--
+      웹 전용 HTML 틀(Expo 기본 틀을 복사해 고친 것). 앱처럼 보이게 두 손가락 확대·축소와 두 번 눌러 확대를 막는다(사용자 결정 11-08).
+      - user-scalable=no / maximum-scale=1: 안드로이드 크롬 등에서 확대를 막는다.
+      - touch-action: manipulation: 두 번 눌러 확대(더블 탭 줌)를 막는다.
+      - 아래 스크립트: iOS 사파리는 viewport 설정을 무시하고 확대를 허용하므로 gesturestart·두 손가락 touchmove를 따로 막는다. [실기기 확인 필요]
+      글자 크기를 키우는 기기 설정에는 영향이 없다. 확대를 막는 만큼 접근성이 줄어드는 점은 사용자가 알고 정한 것이다.
+    -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
     <title>밍팔</title>
     <!-- The `react-native-web` recommended style reset: https://necolas.github.io/react-native-web/docs/setup/#root-element -->
     <style id="expo-reset">
@@ -11,6 +18,7 @@
       html,
       body {
         height: 100%;
+        touch-action: manipulation;
       }
       /* These styles disable body scrolling if you are using <ScrollView> */
       body {
@@ -23,6 +31,14 @@
         flex: 1;
       }
     </style>
+    <script>
+      ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (t) {
+        document.addEventListener(t, function (e) { e.preventDefault(); }, { passive: false });
+      });
+      document.addEventListener('touchmove', function (e) {
+        if (e.touches && e.touches.length > 1) e.preventDefault();
+      }, { passive: false });
+    </script>
   <link rel="icon" href="/mingpal-preview/favicon.ico"/></head>
 
   <body>
@@ -30,6 +46,6 @@
     <noscript> You need to enable JavaScript to run this app. </noscript>
     <!-- The root element for your Expo app. -->
     <div id="root"></div>
-  <script src="/mingpal-preview/_expo/static/js/web/__expo-metro-runtime-9f1a7b6acd20011e290bc79f0164ae37.js" defer></script><script src="/mingpal-preview/_expo/static/js/web/__common-099f28f75b28e04594251a2e14bded17.js" defer></script><script src="/mingpal-preview/_expo/static/js/web/entry-060c2e9c2f66c73e08e46bacaad9f037.js" defer></script>
+  <script src="/mingpal-preview/_expo/static/js/web/__expo-metro-runtime-9f1a7b6acd20011e290bc79f0164ae37.js" defer></script><script src="/mingpal-preview/_expo/static/js/web/__common-acadd43053aa761e25cb9f80f9a390cd.js" defer></script><script src="/mingpal-preview/_expo/static/js/web/entry-037004d1efbd01efd8a50f1bcbdb0e71.js" defer></script>
 </body>
 </html>
